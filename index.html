@@ -41,33 +41,33 @@
     <div class="row">
         <div class="form-group">
             <label>Hệ số lương</label>
-            <input type="number" id="heSoLuong" step="0.01" value="0.00">
+            <input type="number" id="heSoLuong" step="0.01" value="6.04">
         </div>
         <div class="form-group">
             <label>PC Ưu đãi (%)</label>
-            <input type="number" id="pcUuDai" value="...">
+            <input type="number" id="pcUuDai" value="45">
         </div>
     </div>
 
     <div class="row">
         <div class="form-group">
             <label>PC Chức vụ (Hệ số)</label>
-            <input type="number" id="pcChucVu" step="0.01" value="0.00">
+            <input type="number" id="pcChucVu" step="0.01" value="0.45">
         </div>
         <div class="form-group">
             <label>PC Khu vực (Hệ số)</label>
-            <input type="number" id="pcKhuVuc" step="0.01" value="0.0">
+            <input type="number" id="pcKhuVuc" step="0.01" value="0.1">
         </div>
     </div>
 
     <div class="row">
         <div class="form-group">
             <label>PC Trách nhiệm (Hệ số)</label>
-            <input type="number" id="pcTrachNhiem" step="0.01" value="0.00">
+            <input type="number" id="pcTrachNhiem" step="0.01" value="0.15">
         </div>
         <div class="form-group">
             <label>PC Độc hại (Hệ số)</label>
-            <input type="number" id="pcDocHai" step="0.01" value="0.00">
+            <input type="number" id="pcDocHai" step="0.01" value="0.10">
         </div>
     </div>
 
@@ -107,41 +107,43 @@ function formatVND(num) {
 }
 
 function tinhLuong() {
-    // Lấy dữ liệu đầu vào
+    // 1. Lấy dữ liệu đầu vào
     const lcs = parseFloat(document.getElementById('luongCoSo').value) || 0;
     const hsl = parseFloat(document.getElementById('heSoLuong').value) || 0;
     const pcuuDaiPct = parseFloat(document.getElementById('pcUuDai').value) || 0;
     const pccvHeso = parseFloat(document.getElementById('pcChucVu').value) || 0;
     const pckvHeso = parseFloat(document.getElementById('pcKhuVuc').value) || 0;
-    const pctnHeso = parseFloat(document.getElementById('pcTrachNhiem').value) || 0; // Thêm hệ số trách nhiệm
-    const pcdhHeso = parseFloat(document.getElementById('pcDocHai').value) || 0;    // Thêm hệ số độc hại
+    const pctnHeso = parseFloat(document.getElementById('pcTrachNhiem').value) || 0; 
+    const pcdhHeso = parseFloat(document.getElementById('pcDocHai').value) || 0;    
     const pctnPct = parseFloat(document.getElementById('pcThamNien').value) || 0;
     const pcvkPct = parseFloat(document.getElementById('pcVuotKhung').value) || 0;
 
-    // Tính toán các khoản dựa trên lương cơ sở
+    // 2. Tính toán các khoản phụ cấp theo lương cơ sở
     const luongChinh = hsl * lcs;
     const pcChucVu = pccvHeso * lcs;
     const pcKhuVuc = pckvHeso * lcs;
-    const pcTrachNhiem = pctnHeso * lcs; // Tính tiền phụ cấp trách nhiệm
-    const pcDocHai = pcdhHeso * lcs;       // Tính tiền phụ cấp độc hại
+    const pcTrachNhiem = pctnHeso * lcs; 
+    const pcDocHai = pcdhHeso * lcs;       
     
-    // Gốc tính phụ cấp ưu đãi & thâm niên (gồm lương chính + chức vụ + vượt khung nếu có)
+    // Gốc tính phụ cấp ưu đãi & thâm niên (gồm lương chính + chức vụ + vượt khung)
     const gocTinhPhuCap = luongChinh + pcChucVu + (luongChinh * pcvkPct / 100);
-    
     const pcUuDai = gocTinhPhuCap * (pcuuDaiPct / 100);
     const pcThamNien = gocTinhPhuCap * (pctnPct / 100);
     
-    // Cộng thêm trách nhiệm và độc hại vào tổng thu nhập gộp
+    // Tổng gộp thu nhập trước đóng bảo hiểm
     const tongLuongGop = luongChinh + pcUuDai + pcChucVu + pcThamNien + pcKhuVuc + pcTrachNhiem + pcDocHai;
 
-    // Gốc tính bảo hiểm (Trách nhiệm có tính đóng BHXH tùy loại chức danh công việc, ở đây tạm thời gom theo nhóm lương chính + chức vụ + thâm niên)
+    // 3. XỬ LÝ BẢO HIỂM: Loại bỏ hoàn toàn PC Trách nhiệm và PC Độc hại ra khỏi gốc đóng
+    // Gốc đóng BHXH gồm: Lương theo ngạch bậc (lương chính) + Phụ cấp chức vụ + Phụ cấp thâm niên nghề
     const gocTinhBaoHiem = luongChinh + pcChucVu + pcThamNien;
+    
     const bhyt = gocTinhBaoHiem * 0.015;
     const bhxh_bhtn = gocTinhBaoHiem * 0.09;
     
+    // Thực nhận còn lại
     const thucNhan = tongLuongGop - bhyt - bhxh_bhtn;
 
-    // Hiển thị kết quả ra màn hình
+    // 4. Hiển thị kết quả ra màn hình
     document.getElementById('rLuongChinh').innerText = formatVND(luongChinh);
     document.getElementById('rPcUuDai').innerText = formatVND(pcUuDai);
     document.getElementById('rPcChucVu').innerText = formatVND(pcChucVu);
