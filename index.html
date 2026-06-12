@@ -1,168 +1,119 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tính Lương Tham Khảo</title>
-    <style>
-        body { 
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
-            background-color: #fcf8ee; 
-            margin: 0; 
-            padding: 15px; 
-            display: flex; 
-            justify-content: center; 
-        }
-        .container { max-width: 400px; width: 100%; background: white; border: 1px solid #ddd; border-radius: 12px; padding: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
-        h3 { text-align: center; color: #cc3333; margin-top: 0; }
-        .form-group { margin-bottom: 12px; }
-        label { display: block; font-size: 13px; font-weight: bold; color: #003366; margin-bottom: 4px; }
-        input, select { width: 100%; padding: 8px; border: 1.5px solid #003366; border-radius: 6px; box-sizing: border-box; font-size: 15px; }
-        .row { display: flex; gap: 10px; }
-        .row .form-group { flex: 1; }
-        .btn-calc { width: 100%; background: #002d62; color: white; border: none; padding: 12px; font-size: 16px; font-weight: bold; border-radius: 8px; cursor: pointer; margin-top: 10px; }
-        .result-box { border: 2px dashed #003366; border-radius: 8px; padding: 15px; margin-top: 15px; background-color: #fffdf5; font-size: 14px; }
-        .result-line { display: flex; justify-content: space-between; margin-bottom: 6px; }
-        .text-bold { font-weight: bold; }
-        .text-green { color: green; font-weight: bold; }
-        .text-red { color: red; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tính lương CB-GV-NV ngành Giáo dục</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+body{font-family:Segoe UI,Arial,sans-serif;background:#eef4fb;margin:0;padding:20px}
+.container{max-width:900px;margin:auto;background:#fff;padding:24px;border-radius:14px;box-shadow:0 4px 12px rgba(0,0,0,.12)}
+h1{text-align:center;color:#0b3d91}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+label{font-weight:600;color:#0b3d91;font-size:14px}
+input,select{width:100%;padding:8px;margin-top:4px;border:1px solid #b8c7e0;border-radius:6px;box-sizing:border-box}
+.buttons{display:flex;gap:10px;flex-wrap:wrap;margin-top:15px}
+button{background:#0b3d91;color:#fff;border:none;padding:10px 14px;border-radius:8px;cursor:pointer}
+.result{margin-top:20px;border:1px solid #d7e2f3;padding:15px;border-radius:10px;background:#f8fbff}
+.line{display:flex;justify-content:space-between;margin:6px 0}
+.total{font-weight:bold;color:green;font-size:18px}
+footer{text-align:center;margin-top:20px;color:#666}
+@media print {.buttons{display:none} body{background:#fff}}
+</style>
 </head>
 <body>
-
 <div class="container">
-    <h3>Tiện ích tính thu nhập cho GV</h3>
-    
-    <div class="form-group">
-        <label>Lương cơ sở (VNĐ)</label>
-        <input type="number" id="luongCoSo" value="2530000">
-    </div>
+<h1>TÍNH THU NHẬP CB-GV-NV NGÀNH GIÁO DỤC</h1>
 
-    <div class="row">
-        <div class="form-group">
-            <label>Hệ số lương</label>
-            <input type="number" id="heSoLuong" step="0.01" value="6.04">
-        </div>
-        <div class="form-group">
-            <label>PC Ưu đãi (%)</label>
-            <input type="number" id="pcUuDai" value="45">
-        </div>
-    </div>
+<div class="grid">
+<div><label>Lương cơ sở</label><input id="lcs" type="number" value="2530000"></div>
+<div><label>Đối tượng</label><select id="doiTuong"><option>Giáo viên</option><option>Cán bộ quản lý</option><option>Nhân viên</option></select></div>
+<div><label>Hệ số lương</label><input id="hsl" type="number" step="0.01" value="6.04"></div>
+<div><label>PC ưu đãi (%)</label><input id="uudai" type="number" value="45"></div>
+<div><label>PC chức vụ (hệ số)</label><input id="cv" type="number" step="0.01" value="0.45"></div>
+<div><label>PC khu vực (hệ số)</label><input id="kv" type="number" step="0.01" value="0"></div>
+<div><label>PC trách nhiệm (hệ số)</label><input id="tn" type="number" step="0.01" value="0"></div>
+<div><label>PC độc hại (hệ số)</label><input id="dh" type="number" step="0.01" value="0"></div>
+<div><label>PC thâm niên (%)</label><input id="tnn" type="number" value="0"></div>
+<div><label>PC vượt khung (%)</label><input id="vk" type="number" value="0"></div>
+</div>
 
-    <div class="row">
-        <div class="form-group">
-            <label>PC Chức vụ (Hệ số)</label>
-            <input type="number" id="pcChucVu" step="0.01" value="0.45">
-        </div>
-        <div class="form-group">
-            <label>PC Khu vực (Hệ số)</label>
-            <input type="number" id="pcKhuVuc" step="0.01" value="0.1">
-        </div>
-    </div>
+<div class="buttons">
+<button onclick="tinhLuong()">Tính lương</button>
+<button onclick="xuatPDF()">Xuất PDF</button>
+<button onclick="xuatExcel()">Xuất Excel</button>
+</div>
 
-    <div class="row">
-        <div class="form-group">
-            <label>PC Trách nhiệm (Hệ số)</label>
-            <input type="number" id="pcTrachNhiem" step="0.01" value="0.15">
-        </div>
-        <div class="form-group">
-            <label>PC Độc hại (Hệ số)</label>
-            <input type="number" id="pcDocHai" step="0.01" value="0.10">
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="form-group">
-            <label>PC Thâm niên (%)</label>
-            <input type="number" id="pcThamNien" value="36">
-        </div>
-        <div class="form-group">
-            <label>PC Vượt khung (%)</label>
-            <input type="number" id="pcVuotKhung" value="0">
-        </div>
-    </div>
-	
-    <button class="btn-calc" onclick="tinhLuong()">TỔNG THU NHẬP</button>
-
-    <div class="result-box" id="ketQua" style="display:none;">
-        <div class="result-line"><span>Lương chính:</span><span id="rLuongChinh"></span></div>
-        <div class="result-line"><span>Phụ cấp ưu đãi:</span><span id="rPcUuDai"></span></div>
-        <div class="result-line"><span>Phụ cấp chức vụ:</span><span id="rPcChucVu"></span></div>
-        <div class="result-line"><span>Phụ cấp thâm niên:</span><span id="rPcThamNien"></span></div>
-        <div class="result-line"><span>Phụ cấp khu vực:</span><span id="rPcKhuVuc"></span></div>
-        <div class="result-line"><span>Phụ cấp trách nhiệm:</span><span id="rPcTrachNhiem"></span></div>
-        <div class="result-line"><span>Phụ cấp độc hại:</span><span id="rPcDocHai"></span></div>
-        <hr>
-        <div class="result-line text-bold text-green"><span>TỔNG THU NHẬP TRƯỚC ĐÓNG BH:</span><span id="rTongGop"></span></div>
-        <div class="result-line text-red"><span>Trừ BHYT (1.5%):</span><span id="rBHYT"></span></div>
-        <div class="result-line text-red"><span>Trừ BHXH, BHTN (9%):</span><span id="rBHXH"></span></div>
-        <hr>
-        <div class="result-line text-bold text-red" style="font-size: 16px;"><span>TỔNG THU NHẬP CÒN LẠI:</span><span id="rThucNhan"></span></div>
-    </div>
+<div id="kq" class="result"></div>
+<footer>© 2026 - Tính lương CB, GV, NV ngành GD - Lê Công Minh</footer>
 </div>
 
 <script>
-function formatVND(num) {
-    return Math.round(num).toLocaleString('vi-VN') + ' đ';
+let ketQua={};
+
+function f(n){return Math.round(n).toLocaleString('vi-VN')+' đ';}
+
+function tinhLuong(){
+ const lcs=+lcsEl().value,hsl=+hslEl().value;
+ const uudai=+document.getElementById('uudai').value;
+ const cv=+document.getElementById('cv').value*lcs;
+ const kv=+document.getElementById('kv').value*lcs;
+ const tn=+document.getElementById('tn').value*lcs;
+ const dh=+document.getElementById('dh').value*lcs;
+ const tnn=+document.getElementById('tnn').value;
+ const vk=+document.getElementById('vk').value;
+
+ const luong=hsl*lcs;
+ const goc=luong+cv+(luong*vk/100);
+ const pcUuDai=goc*uudai/100;
+ const pcTNN=goc*tnn/100;
+
+ const tong=luong+pcUuDai+pcTNN+cv+kv+tn+dh;
+ const gocBH=luong+cv+pcTNN;
+ const bhyt=gocBH*0.015;
+ const bhxh=gocBH*0.09;
+ const thuc=tong-bhyt-bhxh;
+
+ ketQua={luong,pcUuDai,pcTNN,cv,kv,tn,dh,tong,bhyt,bhxh,thuc};
+
+ document.getElementById('kq').innerHTML=`
+ <div class="line"><span>Lương chính</span><span>${f(luong)}</span></div>
+ <div class="line"><span>PC ưu đãi</span><span>${f(pcUuDai)}</span></div>
+ <div class="line"><span>PC chức vụ</span><span>${f(cv)}</span></div>
+ <div class="line"><span>PC thâm niên</span><span>${f(pcTNN)}</span></div>
+ <div class="line"><span>PC khu vực</span><span>${f(kv)}</span></div>
+ <div class="line"><span>PC trách nhiệm</span><span>${f(tn)}</span></div>
+ <div class="line"><span>PC độc hại</span><span>${f(dh)}</span></div>
+ <hr>
+ <div class="line"><span>Tổng trước BH</span><span>${f(tong)}</span></div>
+ <div class="line"><span>BHYT</span><span>- ${f(bhyt)}</span></div>
+ <div class="line"><span>BHXH+BHTN</span><span>- ${f(bhxh)}</span></div>
+ <div class="line total"><span>THỰC NHẬN</span><span>${f(thuc)}</span></div>`;
 }
 
-function tinhLuong() {
-    // 1. Lấy dữ liệu đầu vào
-    const lcs = parseFloat(document.getElementById('luongCoSo').value) || 0;
-    const hsl = parseFloat(document.getElementById('heSoLuong').value) || 0;
-    const pcuuDaiPct = parseFloat(document.getElementById('pcUuDai').value) || 0;
-    const pccvHeso = parseFloat(document.getElementById('pcChucVu').value) || 0;
-    const pckvHeso = parseFloat(document.getElementById('pcKhuVuc').value) || 0;
-    const pctnHeso = parseFloat(document.getElementById('pcTrachNhiem').value) || 0; 
-    const pcdhHeso = parseFloat(document.getElementById('pcDocHai').value) || 0;    
-    const pctnPct = parseFloat(document.getElementById('pcThamNien').value) || 0;
-    const pcvkPct = parseFloat(document.getElementById('pcVuotKhung').value) || 0;
-
-    // 2. Tính toán các khoản phụ cấp theo lương cơ sở
-    const luongChinh = hsl * lcs;
-    const pcChucVu = pccvHeso * lcs;
-    const pcKhuVuc = pckvHeso * lcs;
-    const pcTrachNhiem = pctnHeso * lcs; 
-    const pcDocHai = pcdhHeso * lcs;       
-    
-    // Gốc tính phụ cấp ưu đãi & thâm niên (gồm lương chính + chức vụ + vượt khung)
-    const gocTinhPhuCap = luongChinh + pcChucVu + (luongChinh * pcvkPct / 100);
-    const pcUuDai = gocTinhPhuCap * (pcuuDaiPct / 100);
-    const pcThamNien = gocTinhPhuCap * (pctnPct / 100);
-    
-    // Tổng gộp thu nhập trước đóng bảo hiểm
-    const tongLuongGop = luongChinh + pcUuDai + pcChucVu + pcThamNien + pcKhuVuc + pcTrachNhiem + pcDocHai;
-
-    // 3. XỬ LÝ BẢO HIỂM: Loại bỏ hoàn toàn PC Trách nhiệm và PC Độc hại ra khỏi gốc đóng
-    // Gốc đóng BHXH gồm: Lương theo ngạch bậc (lương chính) + Phụ cấp chức vụ + Phụ cấp thâm niên nghề
-    const gocTinhBaoHiem = luongChinh + pcChucVu + pcThamNien;
-    
-    const bhyt = gocTinhBaoHiem * 0.015;
-    const bhxh_bhtn = gocTinhBaoHiem * 0.09;
-    
-    // Thực nhận còn lại
-    const thucNhan = tongLuongGop - bhyt - bhxh_bhtn;
-
-    // 4. Hiển thị kết quả ra màn hình
-    document.getElementById('rLuongChinh').innerText = formatVND(luongChinh);
-    document.getElementById('rPcUuDai').innerText = formatVND(pcUuDai);
-    document.getElementById('rPcChucVu').innerText = formatVND(pcChucVu);
-    document.getElementById('rPcThamNien').innerText = formatVND(pcThamNien);
-    document.getElementById('rPcKhuVuc').innerText = formatVND(pcKhuVuc);
-    document.getElementById('rPcTrachNhiem').innerText = formatVND(pcTrachNhiem);
-    document.getElementById('rPcDocHai').innerText = formatVND(pcDocHai);
-    document.getElementById('rTongGop').innerText = formatVND(tongLuongGop);
-    document.getElementById('rBHYT').innerText = "-" + formatVND(bhyt);
-    document.getElementById('rBHXH').innerText = "-" + formatVND(bhxh_bhtn);
-    document.getElementById('rThucNhan').innerText = formatVND(thucNhan);
-
-    document.getElementById('ketQua').style.display = 'block';
+function xuatExcel(){
+ if(!ketQua.thuc){tinhLuong();}
+ const data=Object.entries(ketQua);
+ const ws=XLSX.utils.aoa_to_sheet([["Khoản mục","Giá trị"],...data]);
+ const wb=XLSX.utils.book_new();
+ XLSX.utils.book_append_sheet(wb,ws,"Luong");
+ XLSX.writeFile(wb,"Bang_luong.xlsx");
 }
-	</script>
 
-<footer class="footer">
-    © 2026 - Tính lương cho CB,GV,NV ngành GD - Lê Công Minh
-</footer>
+async function xuatPDF(){
+ if(!ketQua.thuc){tinhLuong();}
+ const {jsPDF}=window.jspdf;
+ const pdf=new jsPDF();
+ pdf.text("Bang luong tham khao",20,20);
+ let y=35;
+ for(const [k,v] of Object.entries(ketQua)){ pdf.text(`${k}: ${Math.round(v).toLocaleString('vi-VN')} d`,20,y); y+=10; }
+ pdf.save("Bang_luong.pdf");
+}
 
+function lcsEl(){return document.getElementById('lcs');}
+function hslEl(){return document.getElementById('hsl');}
+tinhLuong();
+</script>
 </body>
 </html>
