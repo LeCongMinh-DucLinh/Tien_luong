@@ -11,108 +11,153 @@
             margin: 0; 
             padding: 15px; 
             display: flex; 
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
+            justify-content: center; 
         }
-        .container {
-            background-color: #ffffff;
-            padding: 25px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            width: 100%;
-            max-width: 400px;
-        }
-        h2 {
-            text-align: center;
-            color: #333;
-            margin-top: 0;
-        }
-        .form-group {
-            margin-bottom: 15px;
-        }
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: 600;
-            color: #555;
-        }
-        input[type="number"] {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            box-sizing: border-box;
-            font-size: 16px;
-        }
-        button {
-            width: 100%;
-            padding: 12px;
-            background-color: #d4a373;
-            border: none;
-            border-radius: 6px;
-            color: white;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-        button:hover {
-            background-color: #c39464;
-        }
-        .result {
-            margin-top: 20px;
-            padding: 15px;
-            background-color: #f8f9fa;
-            border-left: 5px solid #d4a373;
-            border-radius: 4px;
-            display: none;
-        }
+        .container { max-width: 400px; width: 100%; background: white; border: 1px solid #ddd; border-radius: 12px; padding: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        h3 { text-align: center; color: #cc3333; margin-top: 0; }
+        .form-group { margin-bottom: 12px; }
+        label { display: block; font-size: 13px; font-weight: bold; color: #003366; margin-bottom: 4px; }
+        input, select { width: 100%; padding: 8px; border: 1.5px solid #003366; border-radius: 6px; box-sizing: border-box; font-size: 15px; }
+        .row { display: flex; gap: 10px; }
+        .row .form-group { flex: 1; }
+        .btn-calc { width: 100%; background: #002d62; color: white; border: none; padding: 12px; font-size: 16px; font-weight: bold; border-radius: 8px; cursor: pointer; margin-top: 10px; }
+        .result-box { border: 2px dashed #003366; border-radius: 8px; padding: 15px; margin-top: 15px; background-color: #fffdf5; font-size: 14px; }
+        .result-line { display: flex; justify-content: space-between; margin-bottom: 6px; }
+        .text-bold { font-weight: bold; }
+        .text-green { color: green; font-weight: bold; }
+        .text-red { color: red; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2>Tính Lương Tham Khảo</h2>
+    <h3>Tiện ích tính thu nhập cho GV</h3>
     
     <div class="form-group">
-        <label for="basicSalary">Lương cơ bản (VNĐ):</label>
-        <input type="number" id="basicSalary" placeholder="Nhập lương cơ bản..." value="5000000">
-    </div>
-    
-    <div class="form-group">
-        <label for="allowance">Phụ cấp (VNĐ):</label>
-        <input type="number" id="allowance" placeholder="Nhập phụ cấp nếu có..." value="500000">
-    </div>
-    
-    <div class="form-group">
-        <label for="days">Số ngày làm việc thực tế:</label>
-        <input type="number" id="days" placeholder="Ví dụ: 26" value="26">
+        <label>Lương cơ sở (VNĐ)</label>
+        <input type="number" id="luongCoSo" value="2530000">
     </div>
 
-    <button onclick="calculateSalary()">Tính Lương</button>
+    <div class="row">
+        <div class="form-group">
+            <label>Hệ số lương</label>
+            <input type="number" id="heSoLuong" step="0.01" value="6.04">
+        </div>
+        <div class="form-group">
+            <label>PC Ưu đãi (%)</label>
+            <input type="number" id="pcUuDai" value="45">
+        </div>
+    </div>
 
-    <div class="result" id="resultBox">
-        <strong>Tổng lương nhận được:</strong> <span id="totalSalary">0</span> VNĐ
+    <div class="row">
+        <div class="form-group">
+            <label>PC Chức vụ (Hệ số)</label>
+            <input type="number" id="pcChucVu" step="0.01" value="0.45">
+        </div>
+        <div class="form-group">
+            <label>PC Khu vực (Hệ số)</label>
+            <input type="number" id="pcKhuVuc" step="0.01" value="0.1">
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="form-group">
+            <label>PC Trách nhiệm (Hệ số)</label>
+            <input type="number" id="pcTrachNhiem" step="0.01" value="0.15">
+        </div>
+        <div class="form-group">
+            <label>PC Độc hại (Hệ số)</label>
+            <input type="number" id="pcDocHai" step="0.01" value="0.10">
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="form-group">
+            <label>PC Thâm niên (%)</label>
+            <input type="number" id="pcThamNien" value="36">
+        </div>
+        <div class="form-group">
+            <label>PC Vượt khung (%)</label>
+            <input type="number" id="pcVuotKhung" value="0">
+        </div>
+    </div>
+	
+    <button class="btn-calc" onclick="tinhLuong()">TỔNG THU NHẬP</button>
+
+    <div class="result-box" id="ketQua" style="display:none;">
+        <div class="result-line"><span>Lương chính:</span><span id="rLuongChinh"></span></div>
+        <div class="result-line"><span>Phụ cấp ưu đãi:</span><span id="rPcUuDai"></span></div>
+        <div class="result-line"><span>Phụ cấp chức vụ:</span><span id="rPcChucVu"></span></div>
+        <div class="result-line"><span>Phụ cấp thâm niên:</span><span id="rPcThamNien"></span></div>
+        <div class="result-line"><span>Phụ cấp khu vực:</span><span id="rPcKhuVuc"></span></div>
+        <div class="result-line"><span>Phụ cấp trách nhiệm:</span><span id="rPcTrachNhiem"></span></div>
+        <div class="result-line"><span>Phụ cấp độc hại:</span><span id="rPcDocHai"></span></div>
+        <hr>
+        <div class="result-line text-bold text-green"><span>TỔNG THU NHẬP TRƯỚC ĐÓNG BH:</span><span id="rTongGop"></span></div>
+        <div class="result-line text-red"><span>Trừ BHYT (1.5%):</span><span id="rBHYT"></span></div>
+        <div class="result-line text-red"><span>Trừ BHXH, BHTN (9%):</span><span id="rBHXH"></span></div>
+        <hr>
+        <div class="result-line text-bold text-red" style="font-size: 16px;"><span>TỔNG THU NHẬP CÒN LẠI:</span><span id="rThucNhan"></span></div>
     </div>
 </div>
 
 <script>
-    function calculateSalary() {
-        // Lấy giá trị từ các ô nhập liệu
-        const basicSalary = parseFloat(document.getElementById('basicSalary').value) || 0;
-        const allowance = parseFloat(document.getElementById('allowance').value) || 0;
-        const days = parseFloat(document.getElementById('days').value) || 0;
+function formatVND(num) {
+    return Math.round(num).toLocaleString('vi-VN') + ' đ';
+}
 
-        // Công thức tính lương tham khảo (Giả định tháng công chuẩn là 26 ngày)
-        const standardDays = 26;
-        const actualSalary = (basicSalary / standardDays) * days;
-        const totalSalary = actualSalary + allowance;
+function tinhLuong() {
+    // 1. Lấy dữ liệu đầu vào
+    const lcs = parseFloat(document.getElementById('luongCoSo').value) || 0;
+    const hsl = parseFloat(document.getElementById('heSoLuong').value) || 0;
+    const pcuuDaiPct = parseFloat(document.getElementById('pcUuDai').value) || 0;
+    const pccvHeso = parseFloat(document.getElementById('pcChucVu').value) || 0;
+    const pckvHeso = parseFloat(document.getElementById('pcKhuVuc').value) || 0;
+    const pctnHeso = parseFloat(document.getElementById('pcTrachNhiem').value) || 0; 
+    const pcdhHeso = parseFloat(document.getElementById('pcDocHai').value) || 0;    
+    const pctnPct = parseFloat(document.getElementById('pcThamNien').value) || 0;
+    const pcvkPct = parseFloat(document.getElementById('pcVuotKhung').value) || 0;
 
-        // Hiển thị kết quả định dạng tiền tệ đơn giản
-        document.getElementById('totalSalary').innerText = Math.round(totalSalary).toLocaleString('vi-VN');
-        document.getElementById('resultBox').style.display = 'block';
-    }
+    // 2. Tính toán các khoản phụ cấp theo lương cơ sở
+    const luongChinh = hsl * lcs;
+    const pcChucVu = pccvHeso * lcs;
+    const pcKhuVuc = pckvHeso * lcs;
+    const pcTrachNhiem = pctnHeso * lcs; 
+    const pcDocHai = pcdhHeso * lcs;       
+    
+    // Gốc tính phụ cấp ưu đãi & thâm niên (gồm lương chính + chức vụ + vượt khung)
+    const gocTinhPhuCap = luongChinh + pcChucVu + (luongChinh * pcvkPct / 100);
+    const pcUuDai = gocTinhPhuCap * (pcuuDaiPct / 100);
+    const pcThamNien = gocTinhPhuCap * (pctnPct / 100);
+    
+    // Tổng gộp thu nhập trước đóng bảo hiểm
+    const tongLuongGop = luongChinh + pcUuDai + pcChucVu + pcThamNien + pcKhuVuc + pcTrachNhiem + pcDocHai;
+
+    // 3. XỬ LÝ BẢO HIỂM: Loại bỏ hoàn toàn PC Trách nhiệm và PC Độc hại ra khỏi gốc đóng
+    // Gốc đóng BHXH gồm: Lương theo ngạch bậc (lương chính) + Phụ cấp chức vụ + Phụ cấp thâm niên nghề
+    const gocTinhBaoHiem = luongChinh + pcChucVu + pcThamNien;
+    
+    const bhyt = gocTinhBaoHiem * 0.015;
+    const bhxh_bhtn = gocTinhBaoHiem * 0.09;
+    
+    // Thực nhận còn lại
+    const thucNhan = tongLuongGop - bhyt - bhxh_bhtn;
+
+    // 4. Hiển thị kết quả ra màn hình
+    document.getElementById('rLuongChinh').innerText = formatVND(luongChinh);
+    document.getElementById('rPcUuDai').innerText = formatVND(pcUuDai);
+    document.getElementById('rPcChucVu').innerText = formatVND(pcChucVu);
+    document.getElementById('rPcThamNien').innerText = formatVND(pcThamNien);
+    document.getElementById('rPcKhuVuc').innerText = formatVND(pcKhuVuc);
+    document.getElementById('rPcTrachNhiem').innerText = formatVND(pcTrachNhiem);
+    document.getElementById('rPcDocHai').innerText = formatVND(pcDocHai);
+    document.getElementById('rTongGop').innerText = formatVND(tongLuongGop);
+    document.getElementById('rBHYT').innerText = "-" + formatVND(bhyt);
+    document.getElementById('rBHXH').innerText = "-" + formatVND(bhxh_bhtn);
+    document.getElementById('rThucNhan').innerText = formatVND(thucNhan);
+
+    document.getElementById('ketQua').style.display = 'block';
+}
 </script>
 
 </body>
