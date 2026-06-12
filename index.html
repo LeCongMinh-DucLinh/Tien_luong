@@ -3,118 +3,137 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Tính lương CB-GV-NV ngành Giáo dục 3.0</title>
+<title>Tính Thu Nhập CB-GV-NV Ngành Giáo Dục 4.0</title>
 <style>
-body{font-family:Segoe UI,Arial,sans-serif;background:#eef5ff;margin:0;padding:20px}
-.container{max-width:1000px;margin:auto;background:#fff;border-radius:14px;padding:24px;box-shadow:0 4px 15px rgba(0,0,0,.1)}
-h1{text-align:center;color:#0b3d91}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
-label{font-weight:600;color:#0b3d91;font-size:14px}
-input,select{width:100%;padding:8px;border:1px solid #c9d5ea;border-radius:6px;box-sizing:border-box}
-button{background:#0b3d91;color:#fff;border:none;padding:10px 14px;border-radius:8px;cursor:pointer}
-.actions{margin-top:15px}
-.result{margin-top:18px;padding:15px;border:1px solid #d8e4f5;border-radius:10px;background:#f8fbff}
+body{font-family:Segoe UI,Arial,sans-serif;background:#eef4fb;margin:0;padding:20px}
+.container{max-width:1100px;margin:auto;background:#fff;border-radius:14px;padding:24px;box-shadow:0 4px 18px rgba(0,0,0,.12)}
+h1{text-align:center;color:#0b3d91;margin-bottom:5px}
+.sub{text-align:center;color:#666;margin-bottom:20px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+label{display:block;font-weight:600;color:#0b3d91;margin-bottom:4px}
+input,select{width:100%;padding:8px;border:1px solid #cfd8e6;border-radius:6px;box-sizing:border-box}
+.card{border:1px solid #dbe5f3;border-radius:10px;padding:15px;margin-top:15px;background:#fafcff}
 .line{display:flex;justify-content:space-between;margin:6px 0}
-.total{font-size:18px;font-weight:bold;color:green}
-footer{text-align:center;margin-top:20px;color:#666}
+.total{font-size:20px;font-weight:bold;color:#0a7a22}
 .hidden{display:none}
+.btn{background:#0b3d91;color:#fff;border:none;padding:10px 15px;border-radius:8px;cursor:pointer;margin-top:15px}
+.notice{font-size:12px;color:#666;margin-top:10px}
+footer{text-align:center;color:#666;margin-top:20px}
+@media print{
+ body{background:#fff;padding:0}
+ .no-print{display:none}
+ .container{box-shadow:none;border:none}
+}
 </style>
 </head>
 <body>
 <div class="container">
-<h1>TÍNH THU NHẬP CB-GV-NV NGÀNH GIÁO DỤC 3.0</h1>
+<h1>TÍNH THU NHẬP CB-GV-NV NGÀNH GIÁO DỤC 4.0</h1>
+<div class="sub">Mức lương cơ sở mặc định: 2.530.000 đồng</div>
 
-<div class="grid">
+<div class="grid no-print">
+<div><label>Họ và tên</label><input id="hoten"></div>
+<div><label>Đơn vị công tác</label><input id="donvi"></div>
 <div>
 <label>Đối tượng</label>
-<select id="doiTuong" onchange="capNhatGiaoDien()">
+<select id="doituong" onchange="capNhat()">
 <option value="gv">Giáo viên</option>
 <option value="tpt">Giáo viên Tổng phụ trách</option>
 <option value="cbql">Cán bộ quản lý</option>
 <option value="nv">Nhân viên</option>
 </select>
 </div>
-
 <div><label>Lương cơ sở</label><input id="lcs" type="number" value="2530000"></div>
 <div><label>Hệ số lương</label><input id="hsl" type="number" step="0.01" value="6.04"></div>
 
-<div id="grpUuDai"><label>PC ưu đãi (%)</label><input id="uudai" type="number" value="45"></div>
-<div id="grpThamNien"><label>PC thâm niên (%)</label><input id="tnn" type="number" value="0"></div>
-
-<div id="grpChucVu" class="hidden"><label>PC chức vụ (hệ số)</label><input id="cv" type="number" step="0.01" value="0.25"></div>
-
+<div id="gUu"><label>PC ưu đãi (%)</label><input id="uudai" type="number" value="45"></div>
+<div id="gTNN"><label>PC thâm niên (%)</label><input id="tnn" type="number" value="0"></div>
+<div id="gCV"><label>PC chức vụ (hệ số)</label><input id="cv" type="number" step="0.01" value="0"></div>
 <div><label>PC khu vực (hệ số)</label><input id="kv" type="number" step="0.01" value="0"></div>
-
-<div id="grpTrachNhiem" class="hidden"><label>PC trách nhiệm (hệ số)</label><input id="tn" type="number" step="0.01" value="0.2"></div>
-
-<div id="grpDocHai" class="hidden"><label>PC độc hại (hệ số)</label><input id="dh" type="number" step="0.01" value="0.1"></div>
-
+<div id="gTN"><label>PC trách nhiệm (hệ số)</label><input id="tn" type="number" step="0.01" value="0"></div>
+<div id="gDH"><label>PC độc hại (hệ số)</label><input id="dh" type="number" step="0.01" value="0"></div>
 <div><label>PC vượt khung (%)</label><input id="vk" type="number" value="0"></div>
 </div>
 
-<div class="actions">
-<button onclick="tinhLuong()">Tính lương</button>
-</div>
+<button class="btn no-print" onclick="window.print()">🖨️ In phiếu lương A4</button>
 
-<div id="kq" class="result"></div>
+<div id="kq" class="card"></div>
 
-<footer>© 2026 - Tính lương CB, GV, NV ngành GD - Lê Công Minh</footer>
+<div class="notice">Phiếu tính chỉ mang tính chất tham khảo.</div>
+<footer>© 2026 - Công cụ tính thu nhập CB, GV, NV ngành Giáo dục - Lê Công Minh</footer>
 </div>
 
 <script>
-function capNhatGiaoDien(){
- let d=document.getElementById('doiTuong').value;
- ['grpChucVu','grpTrachNhiem','grpDocHai'].forEach(x=>document.getElementById(x).classList.add('hidden'));
- document.getElementById('grpUuDai').classList.remove('hidden');
- document.getElementById('grpThamNien').classList.remove('hidden');
+const ids=['lcs','hsl','uudai','tnn','cv','kv','tn','dh','vk'];
+ids.forEach(i=>document.addEventListener('input',tinh));
 
- if(d==='tpt') document.getElementById('grpTrachNhiem').classList.remove('hidden');
- if(d==='cbql') document.getElementById('grpChucVu').classList.remove('hidden');
+function capNhat(){
+ let d=doituong.value;
+ gCV.classList.add('hidden');
+ gTN.classList.add('hidden');
+ gDH.classList.add('hidden');
+ gUu.classList.remove('hidden');
+ gTNN.classList.remove('hidden');
 
+ if(d==='tpt') gTN.classList.remove('hidden');
+ if(d==='cbql') gCV.classList.remove('hidden');
  if(d==='nv'){
-   document.getElementById('grpUuDai').classList.add('hidden');
-   document.getElementById('grpThamNien').classList.add('hidden');
-   document.getElementById('grpTrachNhiem').classList.remove('hidden');
-   document.getElementById('grpDocHai').classList.remove('hidden');
+   gUu.classList.add('hidden');
+   gTNN.classList.add('hidden');
+   gTN.classList.remove('hidden');
+   gDH.classList.remove('hidden');
  }
+ tinh();
 }
 
-function f(n){return Math.round(n).toLocaleString('vi-VN')+' đ';}
+function money(n){return Math.round(n).toLocaleString('vi-VN')+' đ';}
 
-function tinhLuong(){
- let lcs=+lcs.value,hsl=+hsl.value;
- let luong=hsl*lcs;
- let cvv=(+document.getElementById('cv').value||0)*lcs;
- let kvv=(+document.getElementById('kv').value||0)*lcs;
- let tnv=(+document.getElementById('tn').value||0)*lcs;
- let dhv=(+document.getElementById('dh').value||0)*lcs;
+function tinh(){
+ let lcsv=+lcs.value||0,hslv=+hsl.value||0;
+ let luong=hslv*lcsv;
+ let cvv=(+cv.value||0)*lcsv;
+ let kvv=(+kv.value||0)*lcsv;
+ let tnv=(+tn.value||0)*lcsv;
+ let dhv=(+dh.value||0)*lcsv;
+
  let goc=luong+cvv+(luong*(+vk.value||0)/100);
  let uu=goc*(+uudai.value||0)/100;
  let tnnv=goc*(+tnn.value||0)/100;
 
- if(document.getElementById('doiTuong').value==='nv'){uu=0;tnnv=0;}
+ if(doituong.value==='nv'){uu=0;tnnv=0;}
 
  let tong=luong+cvv+kvv+tnv+dhv+uu+tnnv;
+
  let gocBH=luong+cvv+tnnv;
+ let bhxh=gocBH*0.08;
  let bhyt=gocBH*0.015;
- let bhxh=gocBH*0.09;
- let thuc=tong-bhyt-bhxh;
+ let bhtn=gocBH*0.01;
+
+ let thuc=tong-bhxh-bhyt-bhtn;
 
  kq.innerHTML=`
- <div class='line'><span>Lương chính</span><span>${f(luong)}</span></div>
- <div class='line'><span>PC ưu đãi</span><span>${f(uu)}</span></div>
- <div class='line'><span>PC thâm niên</span><span>${f(tnnv)}</span></div>
- <div class='line'><span>PC chức vụ</span><span>${f(cvv)}</span></div>
- <div class='line'><span>PC khu vực</span><span>${f(kvv)}</span></div>
- <div class='line'><span>PC trách nhiệm</span><span>${f(tnv)}</span></div>
- <div class='line'><span>PC độc hại</span><span>${f(dhv)}</span></div>
+ <h3 style="color:#0b3d91">PHIẾU TÍNH THU NHẬP</h3>
+ <div><b>Họ và tên:</b> ${hoten.value||"................................"}</div>
+ <div><b>Đơn vị:</b> ${donvi.value||"................................"}</div>
+ <div><b>Đối tượng:</b> ${doituong.options[doituong.selectedIndex].text}</div>
  <hr>
- <div class='line'><span>Tổng trước BH</span><span>${f(tong)}</span></div>
- <div class='line'><span>BHYT</span><span>- ${f(bhyt)}</span></div>
- <div class='line'><span>BHXH+BHTN</span><span>- ${f(bhxh)}</span></div>
- <div class='line total'><span>THỰC NHẬN</span><span>${f(thuc)}</span></div>`;
+ <div class='line'><span>Lương chính</span><span>${money(luong)}</span></div>
+ <div class='line'><span>PC ưu đãi</span><span>${money(uu)}</span></div>
+ <div class='line'><span>PC thâm niên</span><span>${money(tnnv)}</span></div>
+ <div class='line'><span>PC chức vụ</span><span>${money(cvv)}</span></div>
+ <div class='line'><span>PC khu vực</span><span>${money(kvv)}</span></div>
+ <div class='line'><span>PC trách nhiệm</span><span>${money(tnv)}</span></div>
+ <div class='line'><span>PC độc hại</span><span>${money(dhv)}</span></div>
+ <hr>
+ <div class='line'><b>Tổng thu nhập</b><b>${money(tong)}</b></div>
+ <hr>
+ <div class='line'><span>BHXH (8%)</span><span>- ${money(bhxh)}</span></div>
+ <div class='line'><span>BHYT (1,5%)</span><span>- ${money(bhyt)}</span></div>
+ <div class='line'><span>BHTN (1%)</span><span>- ${money(bhtn)}</span></div>
+ <hr>
+ <div class='line total'><span>THỰC NHẬN</span><span>${money(thuc)}</span></div>`;
 }
-capNhatGiaoDien();tinhLuong();
+capNhat();
 </script>
 </body>
 </html>
