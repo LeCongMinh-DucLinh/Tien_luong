@@ -1,161 +1,850 @@
+<!-- BẮT ĐẦU PHẦN 1 -->
+
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tính Thu Nhập CB, GV, NV Ngành...</title>
-    <style>
-        body { 
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
-            background-color: #fcf8ee; 
-            margin: 0; 
-            padding: 10px; 
-            display: flex; 
-            justify-content: center;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        .container {
-            background: #ffffff;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            width: 100%;
-            max-width: 900px; /* Độ rộng tối đa khi xem trên máy tính */
-            padding: 20px;
-            box-sizing: border-box;
-        }
+<title>Tính Thu Nhập CB, GV, NV Ngành Giáo Dục 5.0</title>
 
-        h2 {
-            color: #00469b; /* Màu xanh giống trong ảnh của bạn */
-            margin-top: 0;
-            font-size: 1.4rem;
-            border-bottom: 2px solid #00469b;
-            padding-bottom: 8px;
-        }
+<style>
 
-        /* Bố cục lưới: Mặc định chia 3 cột trên Máy tính (Desktop) */
-        .form-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px; /* Khoảng cách giữa các ô */
-            margin-bottom: 20px;
-        }
+:root{
+    --primary:#0b3d91;
+    --secondary:#eaf2ff;
+    --success:#0f9d58;
+    --danger:#d93025;
+    --border:#d6e2f5;
+}
 
-        .form-group {
-            display: flex;
-            flex-direction: column;
-        }
+*{
+    box-sizing:border-box;
+}
 
-        label {
-            font-weight: 600;
-            color: #00469b;
-            margin-bottom: 6px;
-            font-size: 14px;
-        }
+body{
+    margin:0;
+    padding:20px;
+    background:#f4f8ff;
+    font-family:Segoe UI, Arial, sans-serif;
+    color:#333;
+}
 
-        input {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ced4da;
-            border-radius: 8px;
-            box-sizing: border-box;
-            font-size: 15px;
-        }
+.container{
+    max-width:1200px;
+    margin:auto;
+    background:white;
+    border-radius:15px;
+    padding:25px;
+    box-shadow:0 3px 12px rgba(0,0,0,0.1);
+}
 
-        .btn-group {
-            display: flex;
-            gap: 10px;
-        }
+.header{
+    text-align:center;
+    margin-bottom:20px;
+}
 
-        button {
-            padding: 12px 24px;
-            border: none;
-            border-radius: 6px;
-            font-weight: bold;
-            cursor: pointer;
-            color: white;
-        }
+.header h1{
+    color:var(--primary);
+    margin-bottom:5px;
+    font-size:clamp(12px,2vw,24px);
+    line-height:1.2;
+}
 
-        .btn-primary { background-color: #00469b; }
-        .btn-danger { background-color: #dc3545; }
+.header p{
+    color:#666;
+    margin:0;
+}
 
-        /* ==================== ĐÂY LÀ PHẦN SỬA LỖI ĐIỆN THOẠI ==================== */
-        /* Khi màn hình nhỏ hơn 768px (Điện thoại và máy tính bảng nhỏ) */
-        @media (max-width: 768px) {
-            body {
-                padding: 10px;
-            }
-            
-            /* Ép lưới chuyển từ 3 cột thành 1 cột duy nhất */
-            .form-grid {
-                grid-template-columns: 1fr; 
-                gap: 12px;
-            }
+.section{
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:18px;
+    margin-bottom:18px;
+    background:white;
+}
 
-            label {
-                font-size: 15px; /* Tăng nhẹ kích thước chữ trên điện thoại cho dễ đọc */
-            }
+.section-title{
+    text-align:center;
+    color:#0b3d91;
+    font-weight:700;
+    font-size:20px;
+    margin-bottom:20px;
+    padding-bottom:10px;
+    border-bottom:2px solid #dbe7ff;
+}
 
-            input {
-                padding: 12px; /* Ô nhập liệu to hơn một chút để dễ dùng tay ấn */
-            }
+.grid{
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:15px;
+}
 
-            .btn-group {
-                flex-direction: column; /* Nút bấm cũng xếp chồng dọc */
-            }
-            
-            button {
-                width: 100%;
-            }
-        }
-    </style>
+@media (max-width:768px){
+
+    .grid{
+        grid-template-columns:1fr;
+    }
+
+}
+.form-group{
+    display:flex;
+    flex-direction:column;
+}
+
+label{
+    margin-bottom:5px;
+    font-weight:600;
+    color:var(--primary);
+}
+
+input,
+select,
+textarea{
+    padding:10px;
+    border:1px solid #cbd5e1;
+    border-radius:8px;
+    font-size:15px;
+}
+
+textarea{
+    resize:vertical;
+}
+
+.button-group{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:15px;
+}
+
+.btn{
+    border:none;
+    border-radius:8px;
+    padding:12px 20px;
+    font-weight:bold;
+    cursor:pointer;
+    width:220px;
+}
+
+.btn{
+    border:none;
+    border-radius:8px;
+    padding:12px 18px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.btn-primary{
+    background:var(--primary);
+    color:white;
+}
+
+.btn-danger{
+    background:var(--danger);
+    color:white;
+}
+
+.btn-success{
+    background:var(--success);
+    color:white;
+}
+
+.result-section{
+    display:none;
+}
+
+.result-table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:10px;
+}
+
+.result-table th,
+.result-table td{
+    border:1px solid #dbe4f0;
+    padding:10px;
+}
+
+.result-table th{
+    background:var(--secondary);
+}
+
+.result-table td:last-child{
+    text-align:right;
+}
+
+.total-income{
+    font-size:22px;
+    font-weight:bold;
+    color:var(--success);
+    text-align:right;
+    margin-top:15px;
+}
+
+.notice{
+    margin-top:10px;
+    font-size:13px;
+    color:#666;
+}
+
+.footer{
+    text-align:center;
+    margin-top:20px;
+    font-size:13px;
+    color:#666;
+}
+
+.hidden{
+    display:none;
+}
+
+.signature{
+    display:flex;
+    justify-content:space-between;
+    margin-top:50px;
+}
+
+.signature-box{
+    text-align:center;
+    width:250px;
+}
+
+@media print{
+
+    body{
+        background:white;
+        padding:0;
+    }
+
+    .no-print{
+        display:none !important;
+    }
+
+    .container{
+        box-shadow:none;
+        border:none;
+        padding:0;
+    }
+
+    .result-section{
+        display:block !important;
+    }
+
+}
+
+</style>
+
 </head>
+
 <body>
 
 <div class="container">
-    <h2>LƯƠNG VÀ PHỤ CẤP</h2>
-    
-    <div class="form-grid">
-        <div class="form-group">
-            <label>Mức lương (VNĐ)</label>
-            <input type="number" placeholder="Nhập số tiền...">
-        </div>
-        
-        <div class="form-group">
-            <label>Hệ số lương</label>
-            <input type="number" step="0.01" placeholder="Ví dụ: 2.34">
-        </div>
-        
-        <div class="form-group">
-            <label>Phụ cấp khác</label>
-            <input type="number" value="0">
-        </div>
 
-        <div class="form-group">
-            <label>Thâm niên (%)</label>
-            <input type="number" value="0">
-        </div>
+<div class="header">
+    <h1>TÍNH THU NHẬP CB, GV, NV NGÀNH GIÁO DỤC 5.0</h1>
+    <p>Lương cơ sở mặc định: 2.530.000 đồng</p>
+</div>
 
-        <div class="form-group">
-            <label>Phụ cấp vượt khung (%)</label>
-            <input type="number" value="0">
-        </div>
+<!-- KẾT THÚC PHẦN 1 -->
+<!-- BẮT ĐẦU PHẦN 2 -->
 
-        <div class="form-group">
-            <label>Phụ cấp ưu đãi (%)</label>
-            <input type="number" value="0">
-        </div>
+<!-- THÔNG TIN CÁ NHÂN -->
+
+<div class="section no-print">
+
+    <div class="section-title">
+        THÔNG TIN CÁ NHÂN
     </div>
 
-    <div class="form-group" style="margin-bottom: 20px;">
-        <label>Ghi chú nếu cần...</label>
-        <input type="text" placeholder="Nhập ghi chú...">
+    <div class="grid">
+
+        <div class="form-group">
+            <label>Họ và tên</label>
+            <input type="text" id="hoTen">
+        </div>
+
+        <div class="form-group">
+            <label>Đơn vị công tác</label>
+            <input type="text" id="donVi">
+        </div>
+
+        <div class="form-group">
+            <label>Đối tượng</label>
+            <select id="doiTuong" onchange="capNhatGiaoDien()">
+
+                <option value="gv">
+                    Giáo viên
+                </option>
+
+                <option value="tpt">
+                    Giáo viên Tổng phụ trách
+                </option>
+
+                <option value="cbql">
+                    Cán bộ quản lý
+                </option>
+
+                <option value="nv">
+                    Nhân viên
+                </option>
+
+            </select>
+        </div>
+
     </div>
-    
-    <div class="btn-group">
-        <button class="btn-primary">TÍNH THU NHẬP</button>
-        <button class="btn-danger">XÓA NHẬP LIỆU</button>
+
+</div>
+
+
+<!-- THÔNG TIN LƯƠNG -->
+
+<div class="section no-print">
+
+    <div class="section-title">
+        THÔNG TIN LƯƠNG VÀ PHỤ CẤP
     </div>
+
+   <div class="grid" style="grid-template-columns:repeat(3,1fr);">
+
+    <div class="form-group">
+        <label>Lương cơ sở (VNĐ)</label>
+        <input type="number" id="luongCoSo" value="2530000">
+    </div>
+
+    <div class="form-group">
+        <label>Hệ số lương</label>
+        <input type="number" step="0.01" id="heSoLuong">
+    </div>
+
+    <div class="form-group">
+        <label>Phụ cấp ưu đãi (%)</label>
+        <input type="number" id="pcUuDai" value="0">
+    </div>
+
+    <div class="form-group">
+        <label>Phụ cấp thâm niên (%)</label>
+        <input type="number" id="pcThamNien" value="0">
+    </div>
+
+    <div class="form-group">
+        <label>Phụ cấp vượt khung (%)</label>
+        <input type="number" id="pcVuotKhung" value="0">
+    </div>
+
+    <div class="form-group">
+        <label>Phụ cấp khu vực (Hệ số)</label>
+        <input type="number" step="0.01" id="pcKhuVuc" value="0">
+    </div>
+
+</div>
+
+<!-- PHỤ CẤP CHỨC VỤ -->
+
+<div id="khoiChucVu" class="section no-print hidden">
+
+    <div class="section-title">
+        PHỤ CẤP CHỨC VỤ
+    </div>
+
+    <div class="form-group">
+        <label>Phụ cấp chức vụ (Hệ số)</label>
+        <input type="number" step="0.01" id="pcChucVu" value="0">
+    </div>
+
+</div>
+
+
+<!-- PHỤ CẤP TRÁCH NHIỆM -->
+
+<div id="khoiTrachNhiem" class="section no-print hidden">
+
+    <div class="section-title">
+        PHỤ CẤP TRÁCH NHIỆM
+    </div>
+
+    <div class="form-group">
+        <label>Phụ cấp trách nhiệm (Hệ số)</label>
+        <input type="number" step="0.01" id="pcTrachNhiem" value="0">
+    </div>
+
+</div>
+
+
+<!-- NHÂN VIÊN -->
+
+<div id="khoiNhanVien" class="section no-print hidden">
+
+    <div class="section-title">
+        PHỤ CẤP NHÂN VIÊN
+    </div>
+
+    <div class="grid">
+
+        <div>
+
+            <input
+                type="checkbox"
+                id="coTrachNhiem"
+                onchange="capNhatNhanVien()">
+
+            <label for="coTrachNhiem">
+                Có phụ cấp trách nhiệm
+            </label>
+
+        </div>
+
+        <div>
+
+            <input
+                type="checkbox"
+                id="coDocHai"
+                onchange="capNhatNhanVien()">
+
+            <label for="coDocHai">
+                Có phụ cấp độc hại
+            </label>
+
+        </div>
+
+    </div>
+
+    <br>
+
+    <div
+        id="oTrachNhiemNhanVien"
+        class="form-group hidden">
+
+        <label>
+            Phụ cấp trách nhiệm (Hệ số)
+        </label>
+
+        <input
+            type="number"
+            step="0.01"
+            id="pcTrachNhiemNV"
+            value="0">
+
+    </div>
+
+    <br>
+
+    <div
+        id="oDocHai"
+        class="form-group hidden">
+
+        <label>
+            Phụ cấp độc hại (Hệ số)
+        </label>
+
+        <input
+            type="number"
+            step="0.01"
+            id="pcDocHai"
+            value="0">
+
+    </div>
+
+</div>
+
+
+<!-- GHI CHÚ -->
+
+<div class="section no-print">
+
+    <div class="section-title">
+        GHI CHÚ
+    </div>
+
+    <textarea
+        rows="4"
+        id="ghiChu"
+        placeholder="Ghi chú thêm nếu cần..."></textarea>
+
+</div>
+
+
+<!-- NÚT CHỨC NĂNG -->
+
+<div class="section no-print">
+
+    <div class="button-group">
+
+        <button
+            class="btn btn-primary"
+            onclick="tinhLuong()">
+
+            TÍNH TOÁN THU NHẬP
+
+        </button>
+
+        <button
+            class="btn btn-danger"
+            onclick="xoaDuLieu()">
+
+            XÓA DỮ LIỆU
+
+        </button>
+
+        <button
+            class="btn btn-success"
+            onclick="window.print()">
+
+            IN PHIẾU LƯƠNG A4
+
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- KẾT QUẢ -->
+
+<div
+    id="ketQua"
+    class="section result-section">
+
+</div>
+
+<div class="footer">
+
+    © 2026 - Công cụ tính thu nhập CB, GV, NV ngành Giáo dục
+    <br>
+    phát triển bởi <strong>Lê Công Minh </strong> 
+
+</div>
+
+<!-- KẾT THÚC PHẦN 2 -->
+<!-- BẮT ĐẦU PHẦN 3 -->
+
+<script>
+
+function formatVND(num){
+    return Math.round(num).toLocaleString('vi-VN') + ' đ';
+}
+
+function capNhatGiaoDien(){
+
+    const doiTuong =
+        document.getElementById('doiTuong').value;
+
+    document
+        .getElementById('khoiChucVu')
+        .classList.add('hidden');
+
+    document
+        .getElementById('khoiTrachNhiem')
+        .classList.add('hidden');
+
+    document
+        .getElementById('khoiNhanVien')
+        .classList.add('hidden');
+
+    if(doiTuong === 'cbql'){
+        document
+            .getElementById('khoiChucVu')
+            .classList.remove('hidden');
+    }
+
+    if(doiTuong === 'tpt'){
+        document
+            .getElementById('khoiTrachNhiem')
+            .classList.remove('hidden');
+    }
+
+    if(doiTuong === 'nv'){
+        document
+            .getElementById('khoiNhanVien')
+            .classList.remove('hidden');
+    }
+
+}
+
+function capNhatNhanVien(){
+
+    document
+        .getElementById('oTrachNhiemNhanVien')
+        .classList.toggle(
+            'hidden',
+            !document.getElementById('coTrachNhiem').checked
+        );
+
+    document
+        .getElementById('oDocHai')
+        .classList.toggle(
+            'hidden',
+            !document.getElementById('coDocHai').checked
+        );
+
+}
+
+function tinhLuong(){
+
+    const lcs =
+        parseFloat(document.getElementById('luongCoSo').value) || 0;
+
+    const hsl =
+        parseFloat(document.getElementById('heSoLuong').value) || 0;
+
+    if(hsl <= 0){
+        alert('Vui lòng nhập hệ số lương hợp lệ');
+        return;
+    }
+
+    const pcUuDaiPct =
+        parseFloat(document.getElementById('pcUuDai').value) || 0;
+
+    const pcThamNienPct =
+        parseFloat(document.getElementById('pcThamNien').value) || 0;
+
+    const pcVuotKhungPct =
+        parseFloat(document.getElementById('pcVuotKhung').value) || 0;
+
+    const pcKhuVucHs =
+        parseFloat(document.getElementById('pcKhuVuc').value) || 0;
+
+    const pcChucVuHs =
+        parseFloat(document.getElementById('pcChucVu').value) || 0;
+
+    const pcTrachNhiemHs =
+        parseFloat(document.getElementById('pcTrachNhiem').value) || 0;
+
+    const pcTrachNhiemNVHs =
+        parseFloat(document.getElementById('pcTrachNhiemNV').value) || 0;
+
+    const pcDocHaiHs =
+        parseFloat(document.getElementById('pcDocHai').value) || 0;
+
+    const doiTuong =
+        document.getElementById('doiTuong').value;
+
+    const luongChinh = hsl * lcs;
+
+    let pcChucVu = 0;
+    let pcTrachNhiem = 0;
+    let pcDocHai = 0;
+
+    if(doiTuong === 'cbql'){
+        pcChucVu = pcChucVuHs * lcs;
+    }
+
+    if(doiTuong === 'tpt'){
+        pcTrachNhiem = pcTrachNhiemHs * lcs;
+    }
+
+    if(doiTuong === 'nv'){
+
+        if(document.getElementById('coTrachNhiem').checked){
+            pcTrachNhiem =
+                pcTrachNhiemNVHs * lcs;
+        }
+
+        if(document.getElementById('coDocHai').checked){
+            pcDocHai =
+                pcDocHaiHs * lcs;
+        }
+
+    }
+
+    const pcKhuVuc =
+        pcKhuVucHs * lcs;
+
+    const gocPhuCap =
+        luongChinh +
+        pcChucVu +
+        (luongChinh * pcVuotKhungPct / 100);
+
+    const pcUuDai =
+        gocPhuCap * pcUuDaiPct / 100;
+
+    const pcThamNien =
+        gocPhuCap * pcThamNienPct / 100;
+
+    const tongThuNhap =
+        luongChinh +
+        pcUuDai +
+        pcThamNien +
+        pcChucVu +
+        pcKhuVuc +
+        pcTrachNhiem +
+        pcDocHai;
+
+    const gocDongBH =
+        luongChinh +
+        pcChucVu +
+        pcThamNien;
+
+    const bhxh =
+        gocDongBH * 0.08;
+
+    const bhyt =
+        gocDongBH * 0.015;
+
+    const bhtn =
+        gocDongBH * 0.01;
+
+    const thucNhan =
+        tongThuNhap -
+        bhxh -
+        bhyt -
+        bhtn;
+
+    const ngay =
+        new Date().toLocaleDateString('vi-VN');
+
+    const html = `
+
+        <div class="section-title">
+            PHIẾU TÍNH THU NHẬP
+        </div>
+
+        <p><b>Ngày lập phiếu:</b> ${ngay}</p>
+
+        <p><b>Họ và tên:</b>
+            ${document.getElementById('hoTen').value}
+        </p>
+
+        <p><b>Đơn vị công tác:</b>
+            ${document.getElementById('donVi').value}
+        </p>
+
+        <table class="result-table">
+
+            <tr>
+                <th>Khoản thu nhập</th>
+                <th>Số tiền</th>
+            </tr>
+
+            <tr>
+                <td>Lương chính</td>
+                <td>${formatVND(luongChinh)}</td>
+            </tr>
+
+            <tr>
+                <td>Phụ cấp ưu đãi</td>
+                <td>${formatVND(pcUuDai)}</td>
+            </tr>
+
+            <tr>
+                <td>Phụ cấp thâm niên</td>
+                <td>${formatVND(pcThamNien)}</td>
+            </tr>
+
+            <tr>
+                <td>Phụ cấp chức vụ</td>
+                <td>${formatVND(pcChucVu)}</td>
+            </tr>
+
+            <tr>
+                <td>Phụ cấp khu vực</td>
+                <td>${formatVND(pcKhuVuc)}</td>
+            </tr>
+
+            <tr>
+                <td>Phụ cấp trách nhiệm</td>
+                <td>${formatVND(pcTrachNhiem)}</td>
+            </tr>
+
+            <tr>
+                <td>Phụ cấp độc hại</td>
+                <td>${formatVND(pcDocHai)}</td>
+            </tr>
+
+            <tr>
+                <th>TỔNG THU NHẬP</th>
+                <th>${formatVND(tongThuNhap)}</th>
+            </tr>
+
+        </table>
+
+        <br>
+
+        <table class="result-table">
+
+            <tr>
+                <th>Khoản khấu trừ</th>
+                <th>Số tiền</th>
+            </tr>
+
+            <tr>
+                <td>BHXH (8%)</td>
+                <td>${formatVND(bhxh)}</td>
+            </tr>
+
+            <tr>
+                <td>BHYT (1,5%)</td>
+                <td>${formatVND(bhyt)}</td>
+            </tr>
+
+            <tr>
+                <td>BHTN (1%)</td>
+                <td>${formatVND(bhtn)}</td>
+            </tr>
+
+        </table>
+
+        <div class="total-income">
+
+            THỰC NHẬN:
+            ${formatVND(thucNhan)}
+
+        </div>
+
+        <br>
+
+        <p>
+            <b>Ghi chú:</b><br>
+            ${document.getElementById('ghiChu').value}
+        </p>
+
+        <div class="notice">
+            Kết quả chỉ mang tính tham khảo,
+            việc chi trả thực tế thực hiện theo
+            các văn bản quy định hiện hành.
+        </div>
+
+        <div class="signature">
+
+            <div class="signature-box">
+                Người lập phiếu
+                <br><br><br><br>
+                (Ký, ghi rõ họ tên)
+            </div>
+
+            <div class="signature-box">
+                Người nhận
+                <br><br><br><br>
+                (Ký, ghi rõ họ tên)
+            </div>
+
+        </div>
+
+    `;
+
+    const ketQua =
+        document.getElementById('ketQua');
+
+    ketQua.innerHTML = html;
+
+    ketQua.style.display = 'block';
+
+}
+
+function xoaDuLieu(){
+
+    location.reload();
+
+}
+
+capNhatGiaoDien();
+
+</script>
+
 </div>
 
 </body>
 </html>
+
+<!-- KẾT THÚC PHẦN 3 -->
