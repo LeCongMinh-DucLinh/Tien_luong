@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Tính Thu Nhập CB, GV, NV Ngành Giáo Dục 5.0</title>
+<title>Tính Thu Nhập CB, GV, NV Ngành Giáo Dục (Cập nhật Hệ số đặc thù)</title>
 
 <style>
 
@@ -68,8 +68,8 @@ body{
     color:#0b3d91;
     font-weight:700;
     font-size:20px;
-    margin-bottom:15px;
-    padding-bottom:8px;
+    margin-bottom:20px;
+    padding-bottom:10px;
     border-bottom:2px solid #dbe7ff;
 }
 
@@ -122,41 +122,57 @@ textarea{
     text-align: center;
 }
 
-.btn-primary{ background:var(--primary); color:white; }
-.btn-danger{ background:var(--danger); color:white; }
-.btn-success{ background:var(--success); color:white; }
+.btn-primary{
+    background:var(--primary);
+    color:white;
+}
 
-.result-section{ display:none; }
+.btn-danger{
+    background:var(--danger);
+    color:white;
+}
+
+.btn-success{
+    background:var(--success);
+    color:white;
+}
+
+.result-section{
+    display:none;
+}
 
 .result-table{
     width:100%;
     border-collapse:collapse;
-    margin-top:8px;
+    margin-top:10px;
 }
 
 .result-table th,
 .result-table td{
     border:1px solid #dbe4f0;
-    padding:6px 10px;
-    font-size: 13px;
+    padding:10px;
 }
 
-.result-table th{ background:var(--secondary); }
-.result-table td:last-child{ text-align:right; }
+.result-table th{
+    background:var(--secondary);
+}
+
+.result-table td:last-child{
+    text-align:right;
+}
 
 .total-income{
-    font-size:16px;
+    font-size:22px;
     font-weight:bold;
     color:var(--success);
     text-align:right;
-    margin-top:10px;
+    margin-top:15px;
 }
 
 .notice{
-    margin-top:5px;
-    font-size:11px;
+    margin-top:10px;
+    font-size:13px;
     color:#666;
-    font-style: italic;
 }
 
 .footer{
@@ -166,47 +182,65 @@ textarea{
     color:#666;
 }
 
-.hidden{ display:none !important; }
+.hidden{
+    display:none !important;
+}
 
 .signature{
     display:flex;
     justify-content:space-between;
-    margin-top:20px;
+    margin-top:50px;
 }
 
 .signature-box{
     text-align:center;
-    width:200px;
-    font-size: 12px;
-}
-
-.cut-line {
-    display: none;
+    width:250px;
 }
 
 @media (max-width:768px){
-    body { padding: 10px; }
-    .container { padding: 15px; }
-    .grid{ grid-template-columns: 1fr; gap: 12px; }
-    .button-group { flex-direction: column; width: 100%; gap: 10px; }
-    .btn { width: 100%; padding: 14px; }
-}
-
-/* ==================== CẤU HÌNH IN TỐI ƯU 2 PHIẾU / 1 TRANG A4 ==================== */
-@media print{
-    @page {
-        size: A4 portrait;
-        margin: 8mm 10mm;
+    body {
+        padding: 10px;
+    }
+    
+    .container {
+        padding: 15px;
     }
 
+    .grid{
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .button-group {
+        flex-direction: column;
+        width: 100%;
+        gap: 10px;
+    }
+
+    .btn {
+        width: 100%;
+        padding: 14px;
+    }
+
+    .result-table th, .result-table td {
+        padding: 8px;
+        font-size: 14px;
+    }
+
+    .signature {
+        flex-direction: column;
+        gap: 30px;
+        align-items: center;
+    }
+}
+
+@media print{
     body{
         background:white;
         padding:0;
-        margin:0;
-        font-size: 12px;
     }
 
-    .no-print, .footer{
+    .no-print{
         display:none !important;
     }
 
@@ -214,64 +248,10 @@ textarea{
         box-shadow:none;
         border:none;
         padding:0;
-        margin:0;
-        width: 100%;
     }
 
     .result-section{
         display:block !important;
-        border: none;
-        padding: 0;
-        margin: 0;
-    }
-
-    .pay-stub {
-        padding: 5px 0;
-        page-break-inside: avoid;
-    }
-
-    .pay-stub .section-title {
-        font-size: 16px;
-        margin-bottom: 8px;
-        padding-bottom: 4px;
-    }
-
-    .pay-stub p {
-        margin: 3px 0;
-        font-size: 12px;
-    }
-
-    .result-table th, .result-table td {
-        padding: 4px 6px;
-        font-size: 11px;
-    }
-
-    .total-income {
-        font-size: 14px;
-        margin-top: 6px;
-    }
-
-    .cut-line {
-        display: flex;
-        align-items: center;
-        text-align: center;
-        margin: 12px 0;
-        color: #888;
-        font-size: 12px;
-    }
-
-    .cut-line::before, .cut-line::after {
-        content: '';
-        flex: 1;
-        border-bottom: 1px dashed #999;
-    }
-
-    .cut-line span {
-        padding: 0 10px;
-    }
-
-    .signature {
-        margin-top: 15px;
     }
 }
 
@@ -283,8 +263,8 @@ textarea{
 
 <div class="container">
 
-<div class="header no-print">
-    <h1>TÍNH THU NHẬP CB, GV, NV NGÀNH GIÁO DỤC 5.0</h1>
+<div class="header">
+    <h1>TÍNH THU NHẬP CB, GV, NV NGÀNH GIÁO DỤC</h1>
     <p>Lương cơ sở mặc định: 2.530.000 đồng</p>
 </div>
 
@@ -326,9 +306,10 @@ textarea{
             <input type="number" step="0.01" id="heSoLuong">
         </div>
 
+        <!-- BỔ SUNG HỆ SỐ ĐẶC THÙ -->
         <div class="form-group">
-            <label>Hệ số đặc thù</label>
-            <input type="number" step="0.01" id="heSoDacThu" value="1.00" placeholder="Ví dụ: 1.15 hoặc 1.25">
+            <label>Hệ số đặc thù (Hồi mô có thì nhập zô)</label>
+            <input type="number" step="0.01" id="heSoDacThu" value="..." placeholder="Ví dụ: 1.15 hoặc 1.25">
         </div>
 
         <div class="form-group">
@@ -398,14 +379,14 @@ textarea{
 
 <div class="section no-print">
     <div class="section-title">GHI CHÚ</div>
-    <textarea rows="3" id="ghiChu" placeholder="Ghi chú thêm nếu cần..."></textarea>
+    <textarea rows="4" id="ghiChu" placeholder="Ghi chú thêm nếu cần..."></textarea>
 </div>
 
 <div class="section no-print">
     <div class="button-group">
         <button class="btn btn-primary" onclick="tinhLuong()">TÍNH TOÁN THU NHẬP</button>
         <button class="btn btn-danger" onclick="xoaDuLieu()">XÓA DỮ LIỆU</button>
-        <button class="btn btn-success" onclick="window.print()">IN PHIẾU LƯƠNG (2 BẢN / A4)</button>
+        <button class="btn btn-success" onclick="window.print()">IN PHIẾU LƯƠNG A4</button>
     </div>
 </div>
 
@@ -448,78 +429,6 @@ function capNhatNhanVien(){
     document.getElementById('oDocHai').classList.toggle('hidden', !document.getElementById('coDocHai').checked);
 }
 
-function taoNoiDungPhieu(hoTen, donVi, ngay, hsl, hsDacThu, luongChinhDacThu, pcUuDai, pcThamNien, pcChucVu, pcKhuVuc, pcTrachNhiem, pcDocHai, tongThuNhap, bhxh, bhyt, bhtn, thucNhan, ghiChu) {
-    return `
-        <div class="pay-stub">
-            <div class="section-title">PHIẾU TÍNH THU NHẬP CÁ NHÂN</div>
-            <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
-                <span><b>Họ và tên:</b> ${hoTen || '............................'}</span>
-                <span><b>Ngày lập:</b> ${ngay}</span>
-            </div>
-            <p><b>Đơn vị công tác:</b> ${donVi || '........................................................'}</p>
-
-            <table class="result-table">
-                <tr>
-                    <th>Khoản thu nhập</th>
-                    <th>Số tiền</th>
-                    <th>Khoản khấu trừ</th>
-                    <th>Số tiền</th>
-                </tr>
-                <tr>
-                    <td>Lương chính đặc thù (${hsl} × ${hsDacThu})</td>
-                    <td>${formatVND(luongChinhDacThu)}</td>
-                    <td>BHXH (8%)</td>
-                    <td>${formatVND(bhxh)}</td>
-                </tr>
-                <tr>
-                    <td>Phụ cấp ưu đãi</td>
-                    <td>${formatVND(pcUuDai)}</td>
-                    <td>BHYT (1,5%)</td>
-                    <td>${formatVND(bhyt)}</td>
-                </tr>
-                <tr>
-                    <td>Phụ cấp thâm niên</td>
-                    <td>${formatVND(pcThamNien)}</td>
-                    <td>BHTN (1%)</td>
-                    <td>${formatVND(bhtn)}</td>
-                </tr>
-                <tr>
-                    <td>Phụ cấp chức vụ / Trách nhiệm</td>
-                    <td>${formatVND(pcChucVu + pcTrachNhiem)}</td>
-                    <th style="text-align:left;">TỔNG KHẤU TRỪ</th>
-                    <th>${formatVND(bhxh + bhyt + bhtn)}</th>
-                </tr>
-                <tr>
-                    <td>Các phụ cấp khác (KV, Độc hại)</td>
-                    <td>${formatVND(pcKhuVuc + pcDocHai)}</td>
-                    <td colspan="2" rowspan="2" style="vertical-align:middle; text-align:center; background:#f9fbfd;">
-                        <div class="total-income">THỰC NHẬN:<br>${formatVND(thucNhan)}</div>
-                    </td>
-                </tr>
-                <tr>
-                    <th>TỔNG THU NHẬP</th>
-                    <th>${formatVND(tongThuNhap)}</th>
-                </tr>
-            </table>
-
-            ${ghiChu ? `<p style="margin-top:4px;"><b>Ghi chú:</b> ${ghiChu}</p>` : ''}
-
-            <div class="signature">
-                <div class="signature-box">
-                    <strong>Người lập phiếu</strong>
-                    <br><br><br>
-                    (Ký, ghi rõ họ tên)
-                </div>
-                <div class="signature-box">
-                    <strong>Người nhận phiếu</strong>
-                    <br><br><br>
-                    (Ký, ghi rõ họ tên)
-                </div>
-            </div>
-        </div>
-    `;
-}
-
 function tinhLuong(){
     const lcs = parseFloat(document.getElementById('luongCoSo').value) || 0;
     const hsl = parseFloat(document.getElementById('heSoLuong').value) || 0;
@@ -540,7 +449,10 @@ function tinhLuong(){
     const pcDocHaiHs = parseFloat(document.getElementById('pcDocHai').value) || 0;
     const doiTuong = document.getElementById('doiTuong').value;
 
+    // 1. Lương ngạch bậc gốc (dùng làm căn cứ tính phụ cấp & BHXH)
     const luongNghachBacGoc = hsl * lcs;
+
+    // 2. Lương chính đặc thù (Hệ số lương x Hệ số đặc thù x Lương cơ sở)
     const luongChinhDacThu = hsl * hsDacThu * lcs;
 
     let pcChucVu = 0;
@@ -563,13 +475,17 @@ function tinhLuong(){
     }
 
     const pcKhuVuc = pcKhuVucHs * lcs;
+    
+    // Gốc tính phụ cấp ưu đãi & thâm niên = Lương ngạch bậc gốc + Phụ cấp chức vụ + Phụ cấp vượt khung
     const gocPhuCap = luongNghachBacGoc + pcChucVu + (luongNghachBacGoc * pcVuotKhungPct / 100);
 
     const pcUuDai = gocPhuCap * pcUuDaiPct / 100;
     const pcThamNien = gocPhuCap * pcThamNienPct / 100;
 
+    // Tổng thu nhập sử dụng Lương chính đặc thù
     const tongThuNhap = luongChinhDacThu + pcUuDai + pcThamNien + pcChucVu + pcKhuVuc + pcTrachNhiem + pcDocHai;
 
+    // Gốc đóng BHXH (chỉ dựa trên lương ngạch/bậc gốc + PCCV + PCTN)
     const gocDongBH = luongNghachBacGoc + pcChucVu + pcThamNien;
     const bhxh = gocDongBH * 0.08;
     const bhyt = gocDongBH * 0.015;
@@ -577,24 +493,96 @@ function tinhLuong(){
     const thucNhan = tongThuNhap - bhxh - bhyt - bhtn;
 
     const ngay = new Date().toLocaleDateString('vi-VN');
-    const hoTen = document.getElementById('hoTen').value;
-    const donVi = document.getElementById('donVi').value;
-    const ghiChu = document.getElementById('ghiChu').value;
 
-    // Tạo bản phiếu lương thứ nhất
-    const phieuMot = taoNoiDungPhieu(hoTen, donVi, ngay, hsl, hsDacThu, luongChinhDacThu, pcUuDai, pcThamNien, pcChucVu, pcKhuVuc, pcTrachNhiem, pcDocHai, tongThuNhap, bhxh, bhyt, bhtn, thucNhan, ghiChu);
-    
-    // Tạo bản phiếu lương thứ hai (nhân bản để in vừa 1 trang A4)
-    const phieuHai = taoNoiDungPhieu(hoTen, donVi, ngay, hsl, hsDacThu, luongChinhDacThu, pcUuDai, pcThamNien, pcChucVu, pcKhuVuc, pcTrachNhiem, pcDocHai, tongThuNhap, bhxh, bhyt, bhtn, thucNhan, ghiChu);
+    const html = `
+        <div class="section-title">PHIẾU TÍNH THU NHẬP</div>
+        <p><b>Ngày lập phiếu:</b> ${ngay}</p>
+        <p><b>Họ và tên:</b> ${document.getElementById('hoTen').value}</p>
+        <p><b>Đơn vị công tác:</b> ${document.getElementById('donVi').value}</p>
 
-    const đườngCắt = `
-        <div class="cut-line">
-            <span>✂ Đường cắt chia đôi tờ A4 (Khổ A5)</span>
+        <table class="result-table">
+            <tr>
+                <th>Khoản thu nhập</th>
+                <th>Số tiền</th>
+            </tr>
+            <tr>
+                <td>Lương chính đặc thù (HSL: ${hsl} × HSĐThù: ${hsDacThu})</td>
+                <td>${formatVND(luongChinhDacThu)}</td>
+            </tr>
+            <tr>
+                <td>Phụ cấp ưu đãi</td>
+                <td>${formatVND(pcUuDai)}</td>
+            </tr>
+            <tr>
+                <td>Phụ cấp thâm niên</td>
+                <td>${formatVND(pcThamNien)}</td>
+            </tr>
+            <tr>
+                <td>Phụ cấp chức vụ</td>
+                <td>${formatVND(pcChucVu)}</td>
+            </tr>
+            <tr>
+                <td>Phụ cấp khu vực</td>
+                <td>${formatVND(pcKhuVuc)}</td>
+            </tr>
+            <tr>
+                <td>Phụ cấp trách nhiệm</td>
+                <td>${formatVND(pcTrachNhiem)}</td>
+            </tr>
+            <tr>
+                <td>Phụ cấp độc hại</td>
+                <td>${formatVND(pcDocHai)}</td>
+            </tr>
+            <tr>
+                <th>TỔNG THU NHẬP</th>
+                <th>${formatVND(tongThuNhap)}</th>
+            </tr>
+        </table>
+
+        <br>
+
+        <table class="result-table">
+            <tr>
+                <th>Khoản khấu trừ</th>
+                <th>Số tiền</th>
+            </tr>
+            <tr>
+                <td>BHXH (8%)</td>
+                <td>${formatVND(bhxh)}</td>
+            </tr>
+            <tr>
+                <td>BHYT (1,5%)</td>
+                <td>${formatVND(bhyt)}</td>
+            </tr>
+            <tr>
+                <td>BHTN (1%)</td>
+                <td>${formatVND(bhtn)}</td>
+            </tr>
+        </table>
+
+        <div class="total-income">THỰC NHẬN: ${formatVND(thucNhan)}</div>
+        <br>
+        <p><b>Ghi chú:</b><br>${document.getElementById('ghiChu').value}</p>
+        <div class="notice">
+            Kết quả chỉ mang tính tham khảo, việc chi trả thực tế thực hiện theo các văn bản quy định hiện hành.
+        </div>
+
+        <div class="signature">
+            <div class="signature-box">
+                Người lập phiếu
+                <br><br><br><br>
+                (Ký, ghi rõ họ tên)
+            </div>
+            <div class="signature-box">
+                Người nhận
+                <br><br><br><br>
+                (Ký, ghi rõ họ tên)
+            </div>
         </div>
     `;
 
     const ketQua = document.getElementById('ketQua');
-    ketQua.innerHTML = phieuMot + đườngCắt + phieuHai;
+    ketQua.innerHTML = html;
     ketQua.style.display = 'block';
     
     ketQua.scrollIntoView({ behavior: 'smooth' });
